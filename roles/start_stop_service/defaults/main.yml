@@ -1,0 +1,17 @@
+﻿---
+start_stop_operation: validate_only
+
+start_stop_validate_enabled: true
+start_stop_precheck_enabled: true
+
+# Keep modification stages disabled initially
+start_stop_stop_enabled: false
+start_stop_start_enabled: false
+
+start_stop_verify_enabled: true
+start_stop_preserve_initial_state: true
+
+start_stop_stop_timeout: 300
+start_stop_start_timeout: 600
+start_stop_retry_count: 2
+start_stop_retry_delay: 30

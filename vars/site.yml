@@ -1,0 +1,7 @@
+﻿---
+start_stop_application_id: aws_demo
+start_stop_environment: DEV
+start_stop_operation: validate_only
+
+# Synthetic service used only for the lab.
+start_stop_service_name: httpd.service

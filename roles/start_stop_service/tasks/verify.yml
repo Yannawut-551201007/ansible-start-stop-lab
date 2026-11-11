@@ -1,0 +1,10 @@
+﻿---
+- name: Gather final service facts
+  ansible.builtin.service_facts:
+
+- name: Display final service state
+  ansible.builtin.debug:
+    msg:
+      host: "{{ inventory_hostname }}"
+      service: "{{ start_stop_service_name }}"
+      state: "{{ ansible_facts.services[start_stop_service_name].state | default('unknown') }}"

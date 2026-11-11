@@ -1,0 +1,36 @@
+﻿---
+application:
+  id: aws_demo
+  name: AWS Start Stop Demo
+  environment: DEV
+
+components:
+
+  - id: demo_app
+    layer: APP
+    technology: systemd
+    inventory_group: app_dev
+    service_name: httpd.service
+    stop_order: 10
+    start_order: 30
+    depends_on:
+      - demo_middleware
+
+  - id: demo_middleware
+    layer: MDW
+    technology: systemd
+    inventory_group: mdw_dev
+    service_name: nginx.service
+    stop_order: 20
+    start_order: 20
+    depends_on:
+      - demo_database
+
+  - id: demo_database
+    layer: DB
+    technology: systemd
+    inventory_group: db_dev
+    service_name: mariadb.service
+    stop_order: 30
+    start_order: 10
+    depends_on: []

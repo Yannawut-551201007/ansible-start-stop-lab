@@ -1,0 +1,25 @@
+﻿---
+- name: Validate Start Stop request
+  ansible.builtin.include_tasks: validate.yml
+
+- name: Execute Pre-check
+  ansible.builtin.include_tasks: precheck.yml
+  when:
+    - start_stop_operation in ["precheck_only", "stop_only", "start_only", "full_cycle"]
+
+- name: Execute Stop
+  ansible.builtin.include_tasks: stop.yml
+  when:
+    - start_stop_stop_enabled | bool
+    - start_stop_operation in ["stop_only", "full_cycle"]
+
+- name: Execute Start
+  ansible.builtin.include_tasks: start.yml
+  when:
+    - start_stop_start_enabled | bool
+    - start_stop_operation in ["start_only", "full_cycle"]
+
+- name: Execute Verification
+  ansible.builtin.include_tasks: verify.yml
+  when:
+    - start_stop_operation in ["verify_only", "stop_only", "start_only", "full_cycle"]

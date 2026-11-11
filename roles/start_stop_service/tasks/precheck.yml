@@ -1,0 +1,13 @@
+﻿---
+- name: Test Ansible connectivity
+  ansible.builtin.ping:
+
+- name: Gather service facts
+  ansible.builtin.service_facts:
+
+- name: Display target information
+  ansible.builtin.debug:
+    msg:
+      host: "{{ inventory_hostname }}"
+      os: "{{ ansible_distribution }}"
+      os_version: "{{ ansible_distribution_version }}"

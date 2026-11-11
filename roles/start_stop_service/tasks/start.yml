@@ -1,0 +1,18 @@
+﻿---
+- name: Start requested service
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ start_stop_service_name }}"
+    state: started
+  register: start_stop_start_result
+
+- name: Refresh service facts after Start
+  ansible.builtin.service_facts:
+
+- name: Verify requested service is running
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.services[start_stop_service_name].state in ["running", "active"]
+    fail_msg: >-
+      Service {{ start_stop_service_name }}
+      did not reach the expected running state.

@@ -1,0 +1,22 @@
+﻿---
+- name: Validate required inputs
+  ansible.builtin.assert:
+    that:
+      - start_stop_application_id is defined
+      - start_stop_environment is defined
+      - start_stop_operation is defined
+    fail_msg: "Required Start/Stop parameters are missing."
+
+- name: Validate requested operation
+  ansible.builtin.assert:
+    that:
+      - start_stop_operation in ["validate_only", "precheck_only", "stop_only", "start_only", "verify_only", "full_cycle"]
+    fail_msg: "Unsupported operation: {{ start_stop_operation }}"
+
+- name: Show execution request
+  ansible.builtin.debug:
+    msg:
+      application: "{{ start_stop_application_id }}"
+      environment: "{{ start_stop_environment }}"
+      operation: "{{ start_stop_operation }}"
+      target: "{{ inventory_hostname }}"

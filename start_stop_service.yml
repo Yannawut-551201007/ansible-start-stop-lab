@@ -1,0 +1,10 @@
+﻿---
+- name: Start Stop Service Lab
+  hosts: all
+  gather_facts: true
+
+  vars_files:
+    - vars/site.yml
+
+  roles:
+    - role: start_stop_service
