@@ -13,5 +13,5 @@ start_stop_preserve_initial_state: true
 
 start_stop_stop_timeout: 300
 start_stop_start_timeout: 600
-start_stop_retry_count: 2
-start_stop_retry_delay: 30
+start_stop_retry_count: 3
+start_stop_retry_delay: 10

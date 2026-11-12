@@ -6,13 +6,23 @@
     state: started
   register: start_stop_start_result
 
-- name: Refresh service facts after Start
-  ansible.builtin.service_facts:
+- name: Wait for service to reach running state
+  become: true
+  ansible.builtin.command:
+    cmd: "systemctl is-active {{ start_stop_service_name }}"
+  register: start_stop_start_validation
+  changed_when: false
+  failed_when: false
+  retries: "{{ start_stop_retry_count }}"
+  delay: "{{ start_stop_retry_delay }}"
+  until:
+    - start_stop_start_validation.stdout == "active"
 
 - name: Verify requested service is running
   ansible.builtin.assert:
     that:
-      - ansible_facts.services[start_stop_service_name].state in ["running", "active"]
+      - start_stop_start_validation.stdout == "active"
     fail_msg: >-
       Service {{ start_stop_service_name }}
-      did not reach the expected running state.
+      did not reach the expected running state
+      after {{ start_stop_retry_count }} attempts.
