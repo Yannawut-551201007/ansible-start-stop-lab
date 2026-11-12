@@ -1,0 +1,27 @@
+---
+- name: Gather initial service facts
+  ansible.builtin.service_facts:
+
+- name: Capture initial service state
+  ansible.builtin.set_fact:
+    start_stop_initial_state: >-
+      {{
+        ansible_facts.services[start_stop_service_name].state
+        | default('unknown')
+      }}
+
+- name: Display initial service state
+  ansible.builtin.debug:
+    msg:
+      host: "{{ inventory_hostname }}"
+      service: "{{ start_stop_service_name }}"
+      initial_state: "{{ start_stop_initial_state }}"
+
+- name: Validate initial service state
+  ansible.builtin.assert:
+    that:
+      - start_stop_initial_state != "unknown"
+    fail_msg: >-
+      Unable to determine initial state of
+      {{ start_stop_service_name }}
+      on {{ inventory_hostname }}.

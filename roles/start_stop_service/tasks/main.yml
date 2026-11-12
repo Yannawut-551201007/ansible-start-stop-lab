@@ -6,6 +6,10 @@
   ansible.builtin.include_tasks: precheck.yml
   when:
     - start_stop_operation in ["precheck_only", "stop_only", "start_only", "full_cycle"]
+- name: Capture initial state
+  ansible.builtin.include_tasks: capture_state.yml
+  when:
+    - start_stop_operation in ["stop_only", "full_cycle"]
 
 - name: Execute Stop
   ansible.builtin.include_tasks: stop.yml
